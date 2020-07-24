@@ -37,7 +37,7 @@ $.get("/api/all", function (data) {
             row.text(data[i].taco_name)
 
             $("#to-eat").append(row);
-            $("#to-eat").append($("<button>").attr({ class: "btn", type: "submit", id: "devour-btn", data: tacoId, }).text("Down the Hatch!"))
+            $("#to-eat").append($("<button>").attr({ class: "btn", type: "submit", id: "devour-btn", "data-id": tacoId, }).text("Down the Hatch!"))
         }
     }
 });
