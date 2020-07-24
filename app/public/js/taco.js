@@ -12,14 +12,11 @@ $("#taco-submit").on("click", function (event) {
         .then(function () {
 
             let row = $("<li>");
-            row.addClass("list-group-item");
+            row.addClass("list-group-item ready");
             row.text(newTaco.taco_name)
 
-            $("<button>").attr({ class: "btn submit-btn", type: "submit" }).text("Down the Hatch!")
-            row.append(".submit-btn")
-
-
             $("#to-eat").append(row);
+            $(".ready").append($("<button>").attr({ class: "btn submit-btn", type: "submit" }).text("Down the Hatch!"))
         });
 
     // Empty each input box by replacing the value with an empty string
@@ -34,19 +31,14 @@ $.get("/api/all", function (data) {
         for (var i = 0; i < data.length; i++) {
 
             let row = $("<li>");
-            row.addClass("list-group-item");
+            row.addClass("list-group-item ready");
             row.text(data.taco_name)
 
-            $("<button>").attr({ class: "btn submit-btn", type: "submit" }).text("Down the Hatch!")
-            row.append(".submit-btn")
-
-
             $("#to-eat").append(row);
+            $(".ready").append($("<button>").attr({ class: "btn submit-btn", type: "submit" }).text("Down the Hatch!"))
 
         }
-
     }
-
 });
 
 
