@@ -11,7 +11,8 @@ const Taco = sequelize.define("taco", {
         type: Sequelize.STRING,
     },
     devoured: {
-        type: Sequelize.BOOLEAN
+        type: Sequelize.BOOLEAN,
+        defaultValue: '0'
     }
 });
 
