@@ -15,6 +15,7 @@ module.exports = function (app) {
 
     });
 
+    //Add a new taco to devour
     app.post("/api/new", function (req, res) {
 
         console.log("Taco Data:");
