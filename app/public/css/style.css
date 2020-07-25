@@ -21,6 +21,7 @@ body {
 #devour-btn {
     width: fit-content;
     margin-bottom: 10px;
+    margin-left: 10px;
 }
 
 .list-group {

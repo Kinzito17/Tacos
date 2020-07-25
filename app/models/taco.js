@@ -12,7 +12,7 @@ const Taco = sequelize.define("taco", {
     },
     devoured: {
         type: Sequelize.BOOLEAN,
-        defaultValue: '0'
+        defaultValue: false
     }
 });
 
