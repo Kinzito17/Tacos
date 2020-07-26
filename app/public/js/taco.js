@@ -1,3 +1,5 @@
+let arr = [];
+
 $("#taco-submit").on("click", (event) => {
     event.preventDefault();
 
@@ -9,13 +11,8 @@ $("#taco-submit").on("click", (event) => {
     $.post("/api/new", newTaco)
         // On success, run the following code
         .then(() => {
-
-            let row = $("<li>");
-            row.addClass("list-group-item ready");
-            row.text(newTaco.taco_name);
-
-            $("#to-eat").append(row);
-            row.append($("<button>").attr({ class: "btn submit-btn", type: "submit", id: "devour-btn" }).text("Down the Hatch!"))
+            getTacos();
+            console.log("postin");
         });
 
     // Empty each input box by replacing the value with an empty string
@@ -23,33 +20,86 @@ $("#taco-submit").on("click", (event) => {
 
 });
 
-$.get("/api/all", function (data) {
+function getTacos() {
+    $.get("/api/all", function (data) {
+        if (data.length !== 0 && arr.length !== 0 && data.length !== arr.length) {
+            let arrLength = arr.length;
 
-    if (data.length !== 0) {
+            for (var i = arrLength; i < data.length; i++) {
+                let taco = {
+                    id: data[i].id,
+                    taco_name: data[i].taco_name,
+                    devoured: data[i].devoured
+                }
+                arr.push(taco.id)
+                let row = $("<li>");
+                row.addClass("list-group-item ready");
+                row.attr("data-id", taco.id);
+                row.attr("id", "readyEat")
+                row.text(taco.taco_name);
 
-        for (var i = 0; i < data.length; i++) {
-            let taco = {
-                id: data[i].id,
-                taco_name: data[i].taco_name,
-                devoured: data[i].devoured
+                $("#to-eat").append(row);
+                $("#to-eat").append($("<button>").attr({ class: "btn devour", type: "submit", id: "devour-btn", "data-id": taco.id, }).text("Down the Hatch!"))
             }
-            console.log(taco);
-            let row = $("<li>");
-            row.addClass("list-group-item ready");
-            row.attr("data-id", taco.id);
-            row.text(taco.taco_name);
+        } else {
+            for (var i = 0; i < data.length; i++) {
+                let taco = {
+                    id: data[i].id,
+                    taco_name: data[i].taco_name,
+                    devoured: data[i].devoured
+                }
+                arr.push(taco.id)
+                let row = $("<li>");
+                row.addClass("list-group-item ready");
+                row.attr("data-id", taco.id);
+                row.attr("id", "readyEat");
+                row.text(taco.taco_name);
 
-            $("#to-eat").append(row);
-            row.append($("<button>").attr({ class: "btn", type: "submit", id: "devour-btn", "data-id": taco.id, }).text("Down the Hatch!"))
-        };
+                $("#to-eat").append(row);
+                $("#to-eat").append($("<button>").attr({ class: "btn devour", type: "submit", id: "devour-btn", "data-id": taco.id, }).text("Down the Hatch!"))
+            };
+        }
+    })
+}
+
+
+$(".not-eaten").on("click", "#devour-btn", function (event) {
+    event.preventDefault();
+
+    if (event.target.type === 'submit') {
+        let eatenTaco = $(this).data("id");
+        let tacoName = $("#readyEat").text();
+        console.log(eatenTaco);
+        console.log(tacoName);
+
+        $.ajax({
+            url: `/api/${eatenTaco}`,
+            type: "PUT",
+            data: eatenTaco,
+            success: (data) => {
+                location.assign("/");
+            }
+        })
     }
 });
 
-$("#devour-btn").on("click", (event) => {
-    event.preventDefault();
-    if (event.target.type === "submit") {
-        let id = event.target.id;
-        console.log(id);
-    }
+$.get("/api/all", function (data) {
+    if (data.length !== 0) {
 
-})
+        data.map(taco => {
+            arr.push(taco.id)
+            let row = $("<li>");
+            row.addClass("list-group-item ready");
+            row.attr("data-id", taco.id);
+            row.attr("id", "readyEat");
+            row.text(taco.taco_name);
+            if (taco.devoured === false) {
+                $("#to-eat").append(row);
+                $("#to-eat").append($("<button>").attr({ class: "btn devour", type: "submit", id: "devour-btn", "data-id": taco.id, }).text("Down the Hatch!"))
+            } else {
+                $("#devoured").append(row);
+            }
+        })
+    }
+});
+

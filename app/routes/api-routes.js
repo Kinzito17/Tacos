@@ -1,6 +1,5 @@
 const Taco = require("../models/taco.js");
 
-
 module.exports = (app) => {
 
     app.get("/api/all", function (req, res) {
@@ -25,7 +24,7 @@ module.exports = (app) => {
     app.put("/api/:id", (req, res, next) => {
         console.log(req.params.id)
         Taco.update({
-            devoured: req.body.devoured
+            devoured: true
         },
             {
                 where: {
