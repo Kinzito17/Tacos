@@ -1,3 +1,4 @@
+//array to hold id's for comparison
 let arr = [];
 
 $("#taco-submit").on("click", (event) => {
@@ -20,6 +21,7 @@ $("#taco-submit").on("click", (event) => {
 
 });
 
+//function that checks if the tacos already exist and dynamically builds li's
 function getTacos() {
     $.get("/api/all", function (data) {
         if (data.length !== 0 && arr.length !== 0 && data.length !== arr.length) {
@@ -62,19 +64,20 @@ function getTacos() {
     })
 }
 
+//click handler for the down the hatch button
 $(".not-eaten").on("click", "#devour-btn", function (event) {
     event.preventDefault();
 
     if (event.target.type === 'submit') {
-        let eatenTaco = $(this).data("id");
+        let id = $(this).data("id");
         let tacoName = $("#readyEat").text();
-        console.log(eatenTaco);
+        console.log(id);
         console.log(tacoName);
 
         $.ajax({
-            url: `/api/${eatenTaco}`,
+            url: `/api/${id}`,
             type: "PUT",
-            data: eatenTaco,
+            data: id,
             success: (data) => {
                 location.assign("/");
             }
@@ -82,6 +85,7 @@ $(".not-eaten").on("click", "#devour-btn", function (event) {
     }
 });
 
+// logic that determines if the taco has been "devoured" yet
 $.get("/api/all", function (data) {
     if (data.length !== 0) {
         data.map(taco => {
@@ -101,4 +105,3 @@ $.get("/api/all", function (data) {
         })
     }
 });
-

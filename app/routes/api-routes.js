@@ -21,18 +21,19 @@ module.exports = (app) => {
     });
 
     //Update boolean
-    app.put("/api/:id", (req, res, next) => {
+    app.put("/api/:id", (req, res, err) => {
         console.log(req.params.id)
         Taco.update(
             {
                 devoured: true
             },
             {
-                returning: true, where: { id: req.params.id }
+                returning: true,
+                where: { id: req.params.id }
             })
             .then((results) => {
                 res.json(results);
-            }).catch(next);
+            }).catch(err);
 
     });
 
