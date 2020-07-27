@@ -62,7 +62,6 @@ function getTacos() {
     })
 }
 
-
 $(".not-eaten").on("click", "#devour-btn", function (event) {
     event.preventDefault();
 
@@ -85,7 +84,6 @@ $(".not-eaten").on("click", "#devour-btn", function (event) {
 
 $.get("/api/all", function (data) {
     if (data.length !== 0) {
-
         data.map(taco => {
             arr.push(taco.id)
             let row = $("<li>");
@@ -93,6 +91,7 @@ $.get("/api/all", function (data) {
             row.attr("data-id", taco.id);
             row.attr("id", "readyEat");
             row.text(taco.taco_name);
+
             if (taco.devoured === false) {
                 $("#to-eat").append(row);
                 $("#to-eat").append($("<button>").attr({ class: "btn devour", type: "submit", id: "devour-btn", "data-id": taco.id, }).text("Down the Hatch!"))

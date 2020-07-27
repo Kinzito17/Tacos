@@ -23,13 +23,12 @@ module.exports = (app) => {
     //Update boolean
     app.put("/api/:id", (req, res, next) => {
         console.log(req.params.id)
-        Taco.update({
-            devoured: true
-        },
+        Taco.update(
             {
-                where: {
-                    id: req.body.id
-                }
+                devoured: true
+            },
+            {
+                returning: true, where: { id: req.params.id }
             })
             .then((results) => {
                 res.json(results);
