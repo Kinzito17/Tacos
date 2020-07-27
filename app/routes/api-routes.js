@@ -1,4 +1,4 @@
-const Taco = require("../models/taco.js");
+const Taco = require("../../models/taco.js");
 
 module.exports = (app) => {
 
