@@ -3,7 +3,7 @@
 // Sequelize (capital) references the standard library
 const Sequelize = require("sequelize");
 // sequelize (lowercase) references connection to the DB.
-const sequelize = require("../config/connection.js");
+const sequelize = require("../../config/connection.js");
 
 // Creates a "Book" model that matches up with DB
 const Taco = sequelize.define("taco", {
